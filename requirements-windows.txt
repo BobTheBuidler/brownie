@@ -77,7 +77,6 @@ eth-hash[pycryptodome]==0.6.0
     #   -r requirements.txt
     #   eip712
     #   eth-event
-    #   eth-hash
     #   eth-utils
     #   web3
 eth-keyfile==0.7.0
@@ -247,7 +246,7 @@ regex==2023.12.25
     # via
     #   -r requirements.txt
     #   parsimonious
-requests==2.31.0
+requests==2.32.2
     # via
     #   -r requirements.txt
     #   py-solc-x
@@ -299,7 +298,7 @@ urllib3==2.2.1
     #   requests
 vvm==0.1.0
     # via -r requirements.txt
-vyper==0.3.10
+vyper==0.4.0
     # via -r requirements.txt
 wcwidth==0.2.13
     # via
