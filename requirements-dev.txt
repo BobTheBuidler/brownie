@@ -12,7 +12,7 @@ attrs==23.2.0
     #   pytest
 babel==2.14.0
     # via sphinx
-black==24.2.0
+black==24.3.0
     # via
     #   -c requirements.txt
     #   -r requirements-dev.in
