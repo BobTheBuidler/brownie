@@ -35,7 +35,7 @@ dataclassy==0.11.1
     # via eip712
 eip712==0.2.4
     # via -r requirements.in
-eth-abi==5.0.0
+eth-abi==5.0.1
     # via
     #   -r requirements.in
     #   eip712
@@ -220,7 +220,7 @@ typing-extensions==4.9.0
     #   web3
 urllib3==2.2.1
     # via requests
-vvm==0.2.1
+vvm==0.1.0
     # via -r requirements.in
 vyper==0.4.0
     # via -r requirements.in
