@@ -133,6 +133,7 @@ class Web3(_Web3):
                 self._supports_traces = bool(response["error"]["code"] != -32601)
             except HTTPError as e:
                 print(e.__dict__)
+                print(e.response.__dict__)
                 self._supports_traces = False
 
         return self._supports_traces
