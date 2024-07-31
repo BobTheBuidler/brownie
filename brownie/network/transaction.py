@@ -8,6 +8,7 @@ import time
 from collections import deque
 from enum import IntEnum
 from hashlib import sha1
+from http import HTTPStatus
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple, Union
 from warnings import warn
@@ -635,11 +636,20 @@ class TransactionReceipt:
         if not web3.supports_traces:
             raise RPCRequestError("Node client does not support `debug_traceTransaction`")
         try:
+            # Set enableMemory to all RPC as anvil return the memory key
+            options = {"disableStorage": CONFIG.mode != "console", "enableMemory": True}
+            if "alchemy" in web3.provider.endpoint_uri:
+                options["tracer"] = "callTracer"
             trace = web3.provider.make_request(  # type: ignore
-                # Set enableMemory to all RPC as anvil return the memory key
-                "debug_traceTransaction",
-                (self.txid, {"disableStorage": CONFIG.mode != "console", "enableMemory": True}),
+                "debug_traceTransaction", (self.txid, options),
             )
+        except requests.exceptions.HTTPError as e:
+            # Alchemy
+            print(e.response.__dict__)
+            if e.response.status == HTTPStatus.BAD_REQUEST and False:
+                # do stuff
+                pass
+            raise
         except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
             msg = f"Encountered a {type(e).__name__} while requesting "
             msg += "`debug_traceTransaction`. The local RPC client has likely crashed."
