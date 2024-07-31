@@ -3,6 +3,7 @@
 import json
 import os
 import time
+from http import HTTPStatus
 from pathlib import Path
 from typing import Dict, Optional, Set
 
@@ -132,9 +133,12 @@ class Web3(_Web3):
                 response = self.provider.make_request("debug_traceTransaction", [])
                 self._supports_traces = bool(response["error"]["code"] != -32601)
             except HTTPError as e:
-                print(e.__dict__)
-                print(e.response.__dict__)
-                self._supports_traces = False
+                # Alchemy, a commonly used rpc, returns a [400] Bad Request response with the following text when the endpoint is present
+                alchemy_positive_response = b"expected at least 2 arguments but received 0: required parameters [transaction_hash, options]"
+                if e.response.status_code == HTTPStatus.BAD_REQUEST and alchemy_positive_response in e.response._content:
+                    self._supports_traces = True
+                else:
+                    self._supports_traces = False
 
         return self._supports_traces
 
