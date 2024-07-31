@@ -131,7 +131,8 @@ class Web3(_Web3):
             try:
                 response = self.provider.make_request("debug_traceTransaction", [])
                 self._supports_traces = bool(response["error"]["code"] != -32601)
-            except HTTPError:
+            except HTTPError as e:
+                print(e.__dict__)
                 self._supports_traces = False
 
         return self._supports_traces
